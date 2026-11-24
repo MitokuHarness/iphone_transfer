@@ -27,6 +27,10 @@ class _HomeScreenState
   Set<int>
       checkedFiles = {};
 
+  bool isUploading = false;
+
+  double uploadProgress = 0;
+
   Future<void>
       selectFiles() async {
 
@@ -279,6 +283,14 @@ class _HomeScreenState
     int success = 0;
 
     int failed = 0;
+
+    setState(() {
+
+      isUploading = true;
+
+      uploadProgress = 0;
+    });
+
     List<PlatformFile>
         successFiles = [];
         
@@ -309,6 +321,13 @@ class _HomeScreenState
 
           failed++;
         }
+
+        setState(() {
+
+          uploadProgress =
+              (success + failed) /
+              selectedFiles.length;
+        });
 
       } catch (_) {
 
@@ -461,6 +480,26 @@ class _HomeScreenState
               ),
             ),
 
+            if (isUploading) ...[
+
+              const SizedBox(
+                height: 10,
+              ),
+
+              LinearProgressIndicator(
+                value: uploadProgress,
+              ),
+
+              const SizedBox(
+                height: 5,
+              ),
+
+              Text(
+                "${(uploadProgress * 100).toStringAsFixed(0)}%",
+                textAlign: TextAlign.center,
+              ),
+            ],
+
             const SizedBox(
               height: 10,
             ),
@@ -517,32 +556,30 @@ class _HomeScreenState
 
                       leading:
 
-                          Checkbox(
+                      Checkbox(
 
-                        value:
-                            checkedFiles
-                                .contains(
-                                    index),
-
-                        onChanged:
-                            (value) {
-
-                          setState(() {
-
-                            if (value ==
-                                true) {
-
+                          value:
                               checkedFiles
-                                  .add(
-                                      index);
+                                  .contains(index),
 
-                            } else {
+                          onChanged:
+                              (value) {
 
-                              checkedFiles
-                                  .remove(
-                                      index);
-                            }
-                          });
+                            setState(() {
+
+                              if (value == true) {
+
+                                checkedFiles.add(
+                                  index,
+                                );
+
+                              } else {
+
+                                checkedFiles.remove(
+                                  index,
+                                );
+                              }
+                            });
                         },
                       ),
 
