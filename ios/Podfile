@@ -1,5 +1,4 @@
-﻿@"
-platform :ios, '13.0'
+﻿platform :ios, '13.0'
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 
 flutter_application_path = File.expand_path('..', __dir__)
@@ -30,4 +29,3 @@ installer.pods_project.targets.each do |target|
 flutter_additional_ios_build_settings(target)
 end
 end
-"@ | Set-Content -Path .\ios\Podfile -Encoding UTF8
