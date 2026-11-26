@@ -6,6 +6,18 @@ workflows:
       flutter: stable
       xcode: latest
     scripts:
+      - name: Switch Ruby to 3.x and install pods
+        script: |
+          export PATH="$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"
+          rbenv versions
+          RUBY_3=$(rbenv versions --bare | grep -E '^3\.' | sort -V | tail -n 1)
+          if [ -n "$RUBY_3" ]; then
+            echo "Switching to Ruby $RUBY_3"
+            rbenv shell "$RUBY_3"
+          fi
+          ruby -v
+          pod --version
+          cd ios && pod install
       - name: Get Flutter packages
         script: flutter pub get
       - name: Build iOS (no codesign)
