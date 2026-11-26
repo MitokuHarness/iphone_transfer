@@ -344,7 +344,11 @@ class _HomeScreenState
                 .contains(file),
       );
 
-      checkedFiles.clear();
+        checkedFiles.clear();
+
+        isUploading = false;
+
+        uploadProgress = 0;
     });
 
     if (!mounted) return;
@@ -459,7 +463,9 @@ class _HomeScreenState
             ElevatedButton(
 
               onPressed:
-                  selectFiles,
+                      isUploading
+                          ? null
+                          : selectFiles,
 
               child: const Text(
                 "ファイル選択",
@@ -473,7 +479,9 @@ class _HomeScreenState
             ElevatedButton(
 
               onPressed:
-                  uploadFiles,
+                  isUploading
+                      ? null
+                      : uploadFiles,
 
               child: const Text(
                 "送信",
@@ -507,7 +515,9 @@ class _HomeScreenState
             ElevatedButton(
 
               onPressed:
-                  removeCheckedFiles,
+                  isUploading
+                      ? null
+                      : removeCheckedFiles,
 
               child: const Text(
                 "選択解除",
@@ -521,7 +531,9 @@ class _HomeScreenState
             ElevatedButton(
 
               onPressed:
-                  clearAllFiles,
+                  isUploading
+                      ? null
+                      : clearAllFiles,
 
               child: const Text(
                 "全解除",
